@@ -48,91 +48,131 @@ Create a bar chart highlighting the top 5 best-selling pizzas based on the Reven
 Create a bar chart highlighting the bottom 5 worst-selling pizzas based on the Revenue, Total Quantity and Total Orders. This chart will help us identify the underperforming or least popular pizza options.
 
 #### STEP 3: Load the Data into SQL and run queries to answer all the required questions in STEP 2
+
 -- Total Revenue Generated
+```SQL
 select sum(total_price) as Total_Revenue
 from pizza_sales
-
+```
 -- Average Order Value
+```SQL
 select sum(total_price)/count(distinct order_id) as Avg_Order_Value
 from pizza_sales
-
+```
 -- Total Pizzas Sold
+```SQL
 select count(pizza_id) as Total_Pizzas_Sold
 from pizza_sales
-
+```
 -- Total Orders recorded
+```SQL
 select count(distinct order_id) as Total_Orders
 from pizza_sales
-
+```
 -- Average pizza per order
+```SQL
 select cast(cast(sum(quantity) as decimal (10,2))/cast(count(distinct order_id) as decimal (10,2)) 
 as decimal (10,2))
 as Avg_Pizzas_Per_Order
 from pizza_sales
-
+```
 -- Daily Trend For Total Orders
+```SQL
 select datename(DW, order_date) as Order_Day, count(distinct order_id) as Total_Orders
 from pizza_sales
 group by datename(DW, order_date)
 order by count(distinct order_id) desc
-
+```
 -- Monthy Trend for Total Orders
+```SQL
 select datename(month, order_date) as Order_Month, count(distinct order_id) as Total_Orders
 from pizza_sales
 group by datename(month, order_date)
-
+```
 -- % of sales by pizza category
+```SQL
 select pizza_category, cast(sum(total_price) as decimal (10,2)) as Total_Revenue, 
 cast(sum(total_price)*100/(select sum(total_price) from pizza_sales) as decimal (10,2)) as [pct%]
 from pizza_sales
 group by pizza_category
-
+```
 -- % of sales by pizza size
+```SQL
 select pizza_size, cast(sum(total_price) as decimal (10,2)) as Total_Revenue, 
 cast(sum(total_price)*100/(select sum(total_price) from pizza_sales) as decimal (10,2)) as [pct%]
 from pizza_sales
 group by pizza_size
-
+```
 -- Total pizzas sold by pizza category
+```SQL
 select pizza_category, cast(sum(quantity) as decimal (10,2)) as quantity_sold, 
 cast(sum(quantity)*100/(select sum(quantity) from pizza_sales) as decimal (10,2)) as [pct%]
 from pizza_sales
 group by pizza_category
-
+```
 -- Top 5 Pizzas(pizza_name) by Revenue
+```SQL
 select top 5 pizza_name, cast(sum(total_price) as decimal (10,2)) as Total_revenue
 from pizza_sales
 group by pizza_name
 order by Total_revenue desc
-
+```
 -- Bottom 5 Pizzas by Revenue
+```SQL
 select top 5 pizza_name, cast(sum(total_price) as decimal (10,2)) as Total_revenue
 from pizza_sales
 group by pizza_name
 order by Total_revenue asc
-
+```
 -- Top 5 Pizzas by Quantity
+```SQL
 select top 5 pizza_name, cast(sum(quantity) as decimal (10,2)) as quantity_sold
 from pizza_sales
 group by pizza_name
 order by quantity_sold desc 
-
+```
 -- Bottom 5 Pizzas by Quantity
+```SQL
 select top 5 pizza_name, cast(sum(quantity) as decimal (10,2)) as quantity_sold
 from pizza_sales
 group by pizza_name
 order by quantity_sold asc 
-
+```
 --Top 5 Pizzas by Total Orders
+```SQL
 select top 5 pizza_name, count(distinct order_id) as total_orders
 from pizza_sales
 group by pizza_name
 order by total_orders desc 
-
+```
 -- Bottom 5 Pizzas by Total Orders
+```SQL
 select top 5 pizza_name, count(distinct order_id) as total_orders
 from pizza_sales
 group by pizza_name
 order by total_orders desc 
  
 -- End
+```
+Results from the codes are displayed below
+
+![image](https://github.com/user-attachments/assets/c31de968-5c55-47a1-bb57-465cbc6a187b)
+![image](https://github.com/user-attachments/assets/c41537d0-a8ac-4391-b5ec-d01e0cb1311a)
+![image](https://github.com/user-attachments/assets/bc19a4fd-7b06-4196-98df-85be8b968573)
+![image](https://github.com/user-attachments/assets/410051c1-eb77-4b9e-9d0e-b9dadfcd2b1b)
+![image](https://github.com/user-attachments/assets/d1e14cd5-ab20-4dab-94d1-264e2e89f3b3)
+![image](https://github.com/user-attachments/assets/aa108097-35c1-42a6-91ec-9f2ebeef9429)
+
+
+#### STEP 4: Load the data into Power BI, Transform Data to create required measures and then Build the Dashboard
+
+![page 1](https://github.com/user-attachments/assets/71687b35-46ed-4a56-9114-5077fbfca203)
+*Showing the KPI and some important trends as well as filters for different pizzas as different date ranges*
+![page 2](https://github.com/user-attachments/assets/57417066-6b31-4643-8255-33a450eab3bc)
+*Showing the best selling and worst selling product visuals*
+
+The Power BI report also carries a summary of the key insights from the analysis
+
+End of Project!!
+
+
